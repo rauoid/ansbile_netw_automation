@@ -1,0 +1,21 @@
+---
+- name: ex 3c localhost 
+  hosts: localhost
+  gather_facts: off
+  tasks:
+     - name: print value of ansible_host
+       debug:
+         var: ansible_host
+
+
+- name: ex 3c cisco devices
+  hosts: cisco
+  gather_facts: off
+  tasks:
+     - name: print variable ansible_connection
+       debug:
+         var: ansible_connection
+
+     - name: print variable ansible_host
+       debug:
+         var: ansible_host

@@ -1,0 +1,6 @@
+---
+- name: ex 3a 
+  hosts: localhost
+  tasks:
+     - debug:
+         var: ansible_host
