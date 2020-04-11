@@ -1,0 +1,7 @@
+---
+- name: Exercise 2a 
+  hosts: cisco
+  tasks:
+    - debug:
+        msg: "The ASN hot host {{ inventory_hostname }} is {{ bgp_asn }}"
+

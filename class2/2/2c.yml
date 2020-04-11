@@ -1,0 +1,7 @@
+---
+- name: Exercise 2c using host variable dir
+  hosts: cisco
+  tasks:
+    - debug:
+        msg: "The ASN for host {{ inventory_hostname }} is {{ bgp_asn }}, the router-id is {{ bgp_router_id }}"
+

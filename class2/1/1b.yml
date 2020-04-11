@@ -1,0 +1,17 @@
+---
+- name: exercise 1
+  hosts: arista5
+  gather_facts: True
+  
+  tasks:
+
+    - debug:
+        msg: "{{ ansible_facts }}"
+
+    - debug:
+        msg: "{{ ansible_facts.net_all_ipv4_addresses }}"
+
+
+    - debug:
+        msg: "Inventory : Host: {{ ansible_host }} , OS: {{ ansible_network_os }}"
+

@@ -1,0 +1,26 @@
+---
+- name: exercise 1
+  hosts: arista5
+  gather_facts: True
+  vars_files: my_vars.yml
+  
+  tasks:
+
+    - debug:
+        msg: "{{ ansible_facts }}"
+
+    - debug:
+        msg: "{{ ansible_facts.net_all_ipv4_addresses }}"
+
+
+    - debug:
+        msg: "Inventory : Host = {{ ansible_host }} , OS = {{ ansible_network_os }}"
+
+    - debug:
+        msg: "Desired EOS version : {{ desired_eos_version }}"
+
+    - set_fact:
+        device_hostname: "{{ inventory_hostname }}.lab.io"
+
+    - debug:
+        msg: "device_hostname is {{ device_hostname }}"

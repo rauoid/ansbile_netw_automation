@@ -1,0 +1,12 @@
+---
+- name: play for nxos devices
+  hosts: nxos
+  tasks:
+
+  - name: show version
+    nxos_command:
+      commands: show version
+    register: output
+
+  - debug:
+      msg: "{{ output }}"

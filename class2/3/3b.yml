@@ -1,0 +1,14 @@
+---
+- name: play for nxos devices
+  hosts: nxos
+  tasks:
+
+  - name: show version
+    nxos_command:
+      commands: 
+        - show version
+        - show lldp neighbors
+    register: output
+
+  - debug:
+      msg: "{{ output }}"
