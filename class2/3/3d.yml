@@ -1,0 +1,15 @@
+---
+# ansible-playbook  3c.yml -i ./ansible-hosts.ini -k -u pyclass
+- name: play for nxos devices
+  hosts: nxos
+  tasks:
+
+  - name: show version
+    nxos_command:
+      commands: 
+        - show version
+        - show lldp neighbors
+    register: output
+
+  - debug:
+      msg: "{{ output.stdout_lines[1] }}"

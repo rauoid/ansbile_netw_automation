@@ -1,0 +1,16 @@
+---
+- name: ex 4a
+  hosts: cisco6
+  gather_facts: False
+  tasks:
+
+  - name: clear loggging buffer
+    ios_command:
+      commands: 
+        - command: clear logging
+          prompt: confirm
+          answer: "y"
+    register: output
+
+  - debug:
+        msg: "{{ output }}"

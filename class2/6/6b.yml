@@ -1,0 +1,23 @@
+---
+- name: ex 6
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+    - name: Using Arista eos_command module to show arp
+      eos_command:
+        commands: show ip arp
+      register: output
+
+    - debug:
+        msg: "{{ output }}"
+
+    - name: Using Arista eos_command module to show arp pipe to json
+      eos_command:
+        commands: show ip arp | json
+      register: output_json
+
+    - debug:
+        msg: "{{ output_json }}"
+
+# output_json is now structured data instead of string
