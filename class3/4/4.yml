@@ -1,0 +1,13 @@
+---
+- name: ex4
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+   - name: set hostname
+     set_fact:
+       hostname: "{{ inventory_hostname }}"
+
+   - template:
+        src: ./template/arista.j2
+        dest: ./configs/{{ inventory_hostname }}.txt
