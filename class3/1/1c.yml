@@ -1,0 +1,29 @@
+---
+# --limit arista5
+- name: ex 1c limit to arista5
+  hosts: arista:cisco:juniper
+  gather_facts: False
+
+  tasks:
+
+  - name: show arp on eos
+    eos_command:
+      commands: show ip arp
+    when: ansible_network_os == 'eos'
+    register: show_arp_eos
+
+  - name: show arp on ios
+    ios_command:
+      commands: show ip arp
+    when: ansible_network_os == 'ios'
+    register: show_arp_ios
+
+  - name: show arp on junos
+    junos_command:
+      commands: show arp
+    when: ansible_network_os == 'junos'
+    register: show_arp_junos
+
+  - debug:
+      msg: "{{ show_arp_eos }}"
+    when: ansible_network_os == 'eos'

@@ -1,0 +1,45 @@
+---
+# --tags <tag>
+- name: ex 1b tags
+  hosts: arista:cisco:juniper
+  gather_facts: False
+
+  tasks:
+
+  - name: show arp on eos
+    eos_command:
+      commands: show ip arp
+    when: ansible_network_os == 'eos'
+    register: show_arp_eos
+    tags: eos
+
+  - name: show arp on ios
+    ios_command:
+      commands: show ip arp
+    when: ansible_network_os == 'ios'
+    register: show_arp_ios
+    tags: ios
+
+  - name: show arp on junos
+    junos_command:
+      commands: show arp
+    when: ansible_network_os == 'junos'
+    register: show_arp_junos
+    tags: junos
+
+  - debug:
+      msg: "{{ show_arp_eos }}"
+    when: ansible_network_os == 'eos'
+    tags: eos
+
+  - debug:
+      msg: "{{ show_arp_ios }}"
+    when: ansible_network_os == 'ios'
+    tags: ios
+
+  - debug:
+      msg: "{{ show_arp_junos }}"
+    when: ansible_network_os == 'junos'
+    tags: junos
+
+
