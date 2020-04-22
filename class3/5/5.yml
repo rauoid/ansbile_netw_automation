@@ -1,0 +1,9 @@
+---
+- name: ex5
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - template:
+      src: ./templates/nxos.j2
+      dest: ./configs/{{ inventory_hostname }}.txt
