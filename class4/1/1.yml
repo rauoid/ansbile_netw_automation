@@ -1,0 +1,21 @@
+---
+- name: ex1
+  hosts: cisco
+  gather_facts: False
+  tasks:
+
+  - name: Set login banner
+    ios_banner:
+      banner: login
+      text: |
+        Unauthorized access to this device is prohibited!
+        All activity will be recorded!
+        This is custom multiline banner.
+      state: present
+    notify: write mem
+
+  handlers:
+   - name: write mem
+     ios_command:
+       commands: write memory
+     changed_when: True 

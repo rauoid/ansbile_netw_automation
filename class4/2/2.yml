@@ -1,0 +1,14 @@
+---
+- name: set sytem parameters
+  hosts: cisco1
+  gather_facts: False
+  tasks:
+
+  - name: set hostname domain and dns
+    ios_system:
+      hostname: "{{ my_hostname }}"
+      domain_name: "{{ my_domain_name }}"
+      name_servers:
+        - "{{ dns1 }}"
+        - "{{ dns2 }}"
+      state: present

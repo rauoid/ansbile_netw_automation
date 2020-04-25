@@ -1,0 +1,4 @@
+---
+my_domain_name: bogus.com
+dns1: 8.8.8.8
+dns2: 8.8.4.4
