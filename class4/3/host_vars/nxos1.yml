@@ -1,0 +1,5 @@
+---
+interface_name: Ethernet1/3
+interface_address: 10.227.33.1
+interface_netmask: 24
+peer_address: 10.227.33.2

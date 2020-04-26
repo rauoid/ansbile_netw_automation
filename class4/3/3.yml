@@ -1,0 +1,32 @@
+---
+- name: ex4
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - name: set to routed mode
+    nxos_interfaces:
+      config:
+        - name: "{{ interface_name }}"
+          enabled: True
+          mode: layer3
+      state: merged
+
+  - name: set ip address for interface
+    nxos_l3_interfaces:
+      config:
+        - name: "{{ interface_name }}"
+          ipv4:
+            - address: "{{ interface_address }}/{{ interface_netmask }}"
+      state: merged
+
+  - name: ping
+    net_ping:
+      dest: "{{ peer_address }}"
+    register: ping_result
+
+  - name: Check ping results
+    assert:
+      that:
+        - ping_result.packets_rx >=4
+
