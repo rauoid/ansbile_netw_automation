@@ -1,0 +1,4 @@
+---
+my_vlan_id: 279
+my_vlan_name: vlan279
+my_eth_interface: Ethernet6 

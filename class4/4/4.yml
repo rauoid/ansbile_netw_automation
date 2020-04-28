@@ -1,0 +1,33 @@
+---
+- name: Configure vlan
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+  - name: Configure new vlan
+    eos_vlans:
+      config:
+        - vlan_id: "{{ my_vlan_id }}"
+          state: active
+          name: "{{ my_vlan_name }}"
+      state: merged
+
+  - name: Assign interface to vlan
+    eos_l2_interfaces:
+      config:
+        - name: "{{ my_eth_interface }}"
+          access:
+            vlan: "{{ my_vlan_id }}"
+      state: merged
+
+  - name: Show vlans
+    eos_command:
+      commands: show vlan | json
+    register: show_vlan_output
+
+  - name: Check if my vlan exists on device
+    assert:
+      that:
+        - "'{{ my_vlan_id }}' in show_vlan_output['stdout'][0]['vlans']"
+        - "'{{ my_eth_interface }}' in show_vlan_output['stdout'][0]['vlans']['{{ my_vlan_id }}']['interfaces']"
+  
