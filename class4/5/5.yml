@@ -1,0 +1,38 @@
+---
+- name: Configure trunk on nxos
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - name: Configure interface as switchport
+    nxos_interfaces:
+      config:
+        - name: "{{ intf_name }}"
+          mode: "{{ intf_mode }}"
+          enabled: yes
+      state: merged
+
+  - name: Configure trunking on interface
+    nxos_l2_interface:
+      name: "{{ intf_name }}"
+      mode: "{{ switchport_mode }}"
+
+  - name: Configure native vlan on trunk interface
+    nxos_l2_interfaces:
+      config:
+        - name: "{{ intf_name }}"
+          trunk:
+            native_vlan: "{{ native_vlan }}"
+
+  - name: Show interface trunk
+    nxos_command:
+      commands: 'show interface {{ intf_name }} trunk | json'
+    register: show_trunk_output
+
+
+  - name: Check interface trunk status
+    assert:
+      that:
+        - show_trunk_output['stdout'][0]['TABLE_interface']['ROW_interface']['status'] == "trunking"
+        - show_trunk_output['stdout'][0]['TABLE_interface']['ROW_interface']['native'] == "{{ native_vlan }}"
+ 
