@@ -1,0 +1,45 @@
+---
+- name: ex2 using templates
+  hosts: cisco:arista:nxos
+  gather_facts: True
+  tasks:
+
+  - name: save config to file
+    template:
+      src: "templates/{{ansible_network_os}}/settings.j2"
+      dest: "./configs/{{inventory_hostname}}.txt"
+
+  - name: generate config
+    set_fact:
+      config: "{{ lookup('template', 'templates/{{ansible_network_os}}/settings.j2') }}"
+
+  - name: view generated config
+    debug:
+      var: config.splitlines()
+
+  - name: set config
+    cli_config:
+      config: "{{ config }}"
+
+- name: ex2 using templates
+  hosts: juniper
+  gather_facts: False
+  tasks:
+
+  - name: save config to file
+    template:
+      src: "templates/{{ansible_network_os}}/settings.j2"
+      dest: "./configs/{{inventory_hostname}}.txt"
+
+  - name: generate config
+    set_fact:
+      config: "{{ lookup('template', 'templates/{{ansible_network_os}}/settings.j2') }}"
+
+  - name: view generated config
+    debug:
+      var: config.splitlines()
+
+  - name: set config
+    cli_config:
+      config: "{{ config }}"
+
