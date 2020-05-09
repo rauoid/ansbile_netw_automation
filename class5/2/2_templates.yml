@@ -40,6 +40,9 @@
       var: config.splitlines()
 
   - name: set config
+    vars:
+       # cli_config requires network_cli
+      ansible_connection: network_cli
     cli_config:
       config: "{{ config }}"
 
