@@ -1,0 +1,22 @@
+---
+- name: ex4
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - template:
+      src: ./templates/nxos.j2
+      dest: ./configs/{{ inventory_hostname }}.txt
+
+  - name: deploy bgp config
+    nxos_config:
+      src: ./configs/{{ inventory_hostname }}.txt
+   
+  - name: verify config
+    nxos_command:
+      commands: show ip bgp summary
+    register: output
+
+  - debug:
+      var: output  
+ 
