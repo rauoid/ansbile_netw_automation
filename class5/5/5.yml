@@ -1,0 +1,21 @@
+---
+ - name: ex5
+   hosts: cisco1:cisco2
+   gather_facts: False
+   vars:
+     ansible_user: student1
+     ansible_ssh_private_key_file: "~/.ssh/student_key"
+   tasks:
+
+   - name: show users using ssh auth
+     ios_command:
+       commands: show users
+     register: output
+
+  
+   - debug:
+       var: output
+
+   - assert:
+       that:
+         - "'student1' in output.stdout[0]"
