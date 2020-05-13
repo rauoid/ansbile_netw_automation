@@ -1,0 +1,12 @@
+---
+- name: ex1b
+  hosts: local
+  gather_facts: False
+  tasks:
+  
+  - name: include  with loop
+    include_tasks: "{{ subtask_file_name }}"
+    loop:
+      - 192.168.1.1
+      - 192.168.1.2
+      - 192.168.1.3

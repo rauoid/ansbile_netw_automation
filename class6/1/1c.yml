@@ -1,0 +1,10 @@
+---
+- name: ex1c
+  hosts: local
+  gather_facts: False
+  tasks:
+  
+  - name: subtask with tags
+    include_tasks: subtask2.yml
+# to consider subtask tags, we add tags : always
+    tags: always

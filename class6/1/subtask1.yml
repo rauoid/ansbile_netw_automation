@@ -1,0 +1,4 @@
+---
+- name: subtask1
+  debug:
+    msg: "IP address from loop {{ item }}"
