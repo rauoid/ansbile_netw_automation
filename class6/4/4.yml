@@ -1,0 +1,13 @@
+---
+- name: ex4
+  hosts: cisco:arista:nxos
+  gather_facts: True
+  tasks:
+  
+  - name: 
+    include_tasks: "tasks/{{ ansible_network_os }}/settings.yml"
+    tags:
+      - "ios"
+      - "ios-xe"
+      - "eos"
+      - "nxos"

@@ -1,0 +1,23 @@
+- name: config for IOS devices
+  cli_config:
+    config: |
+        ip domain name {{domain_name}}
+        ntp server {{ntp_server1}}
+        ntp server {{ntp_server2}}
+        ip name-server {{dns_server1}}
+        ip name-server {{dns_server2}}
+  when: 
+        - ansible_facts.net_iostype=="IOS"
+  tags: ios
+
+
+- name: config for IOS XE devices
+  cli_config:
+    config: |
+        ip domain name {{domain_name}}
+        ntp server {{ntp_server1}}
+        ntp server {{ntp_server2}}
+        ip name-server {{dns_server1}} {{dns_server2}}
+  when: 
+        - ansible_facts.net_iostype=="IOS-XE"
+  tags: "ios-xe"
