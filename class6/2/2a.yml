@@ -1,0 +1,8 @@
+---
+- name: ex2a
+  hosts: local
+  gather_facts: False
+  tasks:
+  
+  - name: import with loop
+    import_tasks: subtask1.yml

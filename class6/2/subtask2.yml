@@ -1,0 +1,16 @@
+---
+- name: subtask2 first
+  debug:
+    msg: "first task"
+  tags: first
+
+- name: subtask2 second
+  debug:
+    msg: "second task"
+  tags: second
+
+- name: subtask2 third
+  debug:
+    msg: "third task"
+  tags: third
+

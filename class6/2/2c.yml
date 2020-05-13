@@ -1,0 +1,9 @@
+---
+- name: ex2c
+  hosts: local
+  gather_facts: False
+  tasks:
+  
+  - name: import subtask with tags
+    import_tasks: subtask2.yml
+# no tags needed here, subtasks will be executed based on tags

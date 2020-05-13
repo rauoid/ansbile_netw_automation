@@ -1,0 +1,10 @@
+---
+- name: ex2b
+  hosts: local
+  vars:
+    subtask_file_name: subtask1.yml
+  gather_facts: False
+  tasks:
+  
+  - name: import  with loop
+    import_tasks: "{{ subtask_file_name }}"
