@@ -1,0 +1,8 @@
+{% for vrf_name, vrf_attribs in vrf_lite_config.items() %}
+ip vrf {{ vrf_name }}
+ rd 65000:{{ vrf_attribs.vrf_id }}
+!
+interface {{ vrf_attribs.vrf_interface }}
+ ip vrf forwarding {{ vrf_name }}
+!
+{% endfor %}

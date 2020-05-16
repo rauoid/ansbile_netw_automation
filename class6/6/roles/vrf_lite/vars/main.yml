@@ -1,0 +1,4 @@
+---
+vrf_lite_config:
+  blue: { "vrf_id" : "1", "vrf_interface" : "Loopback98" }
+  red: { "vrf_id" : "2", "vrf_interface" : "Loopback99" }

@@ -1,0 +1,6 @@
+---
+- name: ex6
+  hosts: cisco5:cisco6
+  gather_facts: False
+  roles:
+    - vrf_lite

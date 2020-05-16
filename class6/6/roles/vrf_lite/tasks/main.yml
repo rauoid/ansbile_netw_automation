@@ -1,0 +1,8 @@
+---
+- template:
+    src: vrf_lite_config.j2
+    dest: "{{ inventory_hostname }}.txt"
+
+- name: vrf-lite config
+  ios_config:
+    src: vrf_lite_config.j2
