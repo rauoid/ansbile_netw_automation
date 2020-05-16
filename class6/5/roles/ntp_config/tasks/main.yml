@@ -1,0 +1,16 @@
+---
+- name: NTP for IOS devices
+  ios_config:
+    src: ios_ntp_config.j2
+  when: ansible_network_os == "ios"
+
+- name: NTP for EOS devices
+  eos_config:
+    src: eos_ntp_config.j2
+  when: ansible_network_os == "eos"
+
+- name: NTP for NXOS devices
+  nxos_config:
+    src: nxos_ntp_config.j2
+  when: ansible_network_os == "nxos"
+
