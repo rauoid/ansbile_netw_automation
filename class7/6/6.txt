@@ -1,0 +1,41 @@
+# Host parameters output example
+$ ansible-inventory --host cisco1 -i dyn_inv.py 
+{
+    "ansible_connection": "network_cli",
+    "ansible_host": "cisco1.lasthop.io",
+    "ansible_network_os": "ios",
+    "ansible_python_interpreter": "/home/student5/VENV/ansible/bin/python",
+    "ansible_user": "pyclass"
+}
+
+$ ansible-inventory --host srx1 -i dyn_inv.py 
+{
+    "ansible_connection": "netconf",
+    "ansible_host": "srx1.lasthop.io",
+    "ansible_network_os": "junos",
+    "ansible_python_interpreter": "/home/student5/VENV/ansible/bin/python",
+    "ansible_user": "pyclass"
+}
+
+# Invenrory list
+$ ansible-inventory -i dyn_inv.py --graph
+@all:
+  |--@arista:
+  |  |--arista5
+  |  |--arista6
+  |  |--arista7
+  |  |--arista8
+  |--@cisco:
+  |  |--cisco1
+  |  |--cisco2
+  |  |--cisco5
+  |  |--cisco6
+  |--@juniper:
+  |  |--srx1
+  |--@local:
+  |  |--localhost
+  |--@nxos:
+  |  |--nxos1
+  |  |--nxos2
+  |--@ungrouped:
+
