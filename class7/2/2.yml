@@ -1,0 +1,24 @@
+- name: ex2
+  hosts: arista
+  gather_facts: False
+  tasks:
+  - block:
+    - name: configure dns server for EOS
+      vars:
+        ansible_ssh_pass: "wrong_pass"
+      eos_config:
+        commands:
+          - ip name-server 8.8.8.8
+          - ip name-server 8.8.4.4
+    rescue:
+      - debug:
+          msg: "Error occured"
+      - name: Use pass from env
+        vars:
+          ansible_ssh_pass: "{{lookup('env', 'ANSIBLE_PASSWORD')}}"
+        eos_config:
+          commands:
+            - ip name-server 8.8.8.8
+            - ip name-server 8.8.4.4
+
+
