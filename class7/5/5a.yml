@@ -1,0 +1,40 @@
+- name: ex5a
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - name: show lldp neighbors on NXOS
+    nxos_command:
+      commands: show lldp neighbors
+    register: output
+
+  - set_fact:
+      output: "{{ output.stdout[0] }}"
+
+  - name: strip header info
+    set_fact: 
+      show_lldp_nei: "{{ output | regex_replace('Capability.*codes:') | trim }}"
+
+  - set_fact:
+      show_lldp_nei: "{{ show_lldp_nei | regex_replace('.*Device') | trim }}"
+
+  - set_fact:
+      show_lldp_nei: "{{ show_lldp_nei | regex_replace('.*Other') | trim }}"
+
+  - set_fact:
+      show_lldp_nei: "{{ show_lldp_nei | regex_replace('.*ID') | trim }}"
+
+  - name: Extract lldp neighbors into columns
+    set_fact:
+      show_lldp_nei_list: "{{ show_lldp_nei | regex_findall('^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)', multiline=True) }}"
+
+  - name: list lldp neighbors
+    debug:
+#      msg: "LLDP: Remote name: {{ item[0] }}, Local intf: {{ item[1] }}, Remote intf: {{ item[4] }}"
+      msg:
+         - "{{ item[0] }}"
+         - "{{ item[1] }}"
+         - "{{ item[4] }}"
+    loop: "{{ show_lldp_nei_list }}"
+
+

@@ -1,0 +1,27 @@
+- name: ex5b
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+  - name: show version on EOS
+    eos_command:
+      commands: show version
+    register: output
+
+  - set_fact:
+      output: "{{ output.stdout[0]}}"
+
+  - name: extract software version
+    set_fact:
+      sw_ver: "{{ output | regex_search('^Software image version: (\\S+).*$','\\1', multiline=True) }}"
+
+  - debug:
+      msg: "Software version: {{ sw_ver }}"
+
+  - name: extract software version named capture group
+    set_fact:
+      sw_ver_named: "{{ output | regex_search('^Software image version: (?P<sw_ver>\\S+).*$','\\g<sw_ver>', multiline=True) }}"
+
+  - debug:
+      msg: "Software version: {{ sw_ver_named }}"
+
