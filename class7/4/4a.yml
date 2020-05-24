@@ -1,0 +1,19 @@
+- name: ex4a
+  hosts: nxos
+  vars:
+    command: show interface
+  collections:
+    - clay584.genie
+  gather_facts: False
+  tasks:
+
+  - name: show interface on NXOS
+    nxos_command:
+      commands: "{{ command }}"
+    register: output
+
+  - set_fact:
+      output_struct: "{{ output.stdout[0] | clay584.genie.parse_genie(command=command, os='nxos') }}"
+
+  - debug:
+      var: output_struct
