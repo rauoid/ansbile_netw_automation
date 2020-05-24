@@ -1,0 +1,32 @@
+- name: ex3a
+  hosts: nxos
+  vars:
+    fsm_template: "cisco_nxos_show_ip_bgp_summary.textfsm"
+  gather_facts: False
+  tasks:
+
+  - name: show nxos ip bgp
+    nxos_command:
+      commands: show ip bgp summary
+    register: output
+
+  - set_fact:
+      show_ip_bgp_summary: "{{output.stdout[0] | parse_cli_textfsm(fsm_template)}}"
+
+  - debug:
+      var: show_ip_bgp_summary
+
+  - set_fact:
+      state_pfxrcd: "{{show_ip_bgp_summary[0]['STATE_PFXRCD']}}"
+    when: 'show_ip_bgp_summary|length > 0'
+
+  - debug:
+      var: state_pfxrcd
+
+  - assert:
+      that:
+        - "state_pfxrcd is defined"
+        - "'Shut' not in state_pfxrcd"
+        - "'Idle' not in state_pfxrcd"
+        - state_pfxrcd| int >= 2
+

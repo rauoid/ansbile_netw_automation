@@ -1,0 +1,23 @@
+- name: ex3b
+  hosts: arista
+  vars:
+    platform: "arista_eos"
+    command: "show vlan"
+    username: "{{lookup('env', 'LOGNAME')}}"
+    textfsm_index: "/home/{{ username }}/ntc-templates/templates/"
+  gather_facts: False
+  tasks:
+
+  - name: show vlan on EOS
+    eos_command:
+      commands: "{{ command }}"
+    register: output
+
+  - debug:
+      var: output
+
+  - set_fact:
+      show_vlan: "{{ output.stdout[0] | ntc_parse(command, platform, textfsm_index) }}"
+
+  - debug:
+      var: show_vlan
