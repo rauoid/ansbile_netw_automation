@@ -1,0 +1,19 @@
+- name: ex4
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+  - name: show mac addr table on EOS
+    eos_command:
+      commands: 'show mac address-table | json'
+    register: output
+
+  - set_fact:
+      show_mac_addr_tbl: "{{ output.stdout[0].unicastTable.tableEntries}}"
+
+  - set_fact:
+      mac_list: "{{ mac_list | default([]) + [item['macAddress']] }}"
+    loop: "{{ show_mac_addr_tbl }}"
+
+  - debug:
+      var: mac_list
