@@ -1,0 +1,25 @@
+- name: ex3
+  hosts: arista
+  gather_facts: False
+  tasks:
+
+  - name: show mac addr table on EOS
+    eos_command:
+      commands: 'show mac address-table | json'
+    register: output
+
+  - set_fact:
+      show_mac_addr_tbl: "{{ output.stdout[0].unicastTable.tableEntries}}"
+
+  - set_fact:
+      mac_addr: "{{ show_mac_addr_tbl | map(attribute='macAddress') |list }}"
+      src_intf: "{{ show_mac_addr_tbl | map(attribute='interface') |list }}"
+
+  - set_fact:
+      list_of_lists: "{{ mac_addr | zip(src_intf) | list }}"
+
+  - set_fact:
+      mac_intf_dict: "{{ dict(list_of_lists )}}"
+
+  - debug:
+      var: mac_intf_dict
