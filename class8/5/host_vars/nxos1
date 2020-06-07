@@ -1,0 +1,4 @@
+---
+vlans:
+  - { "vlan_id" : 100, "vlan_name" : "blue100"}
+  - { "vlan_id" : 101, "vlan_name" : "blue101"}

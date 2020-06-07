@@ -1,0 +1,57 @@
+- name: ex5
+  hosts: nxos
+  gather_facts: False
+  tasks:
+
+  - name: create vlans on NXOS
+    nxos_vlans:
+      config:
+        - vlan_id: "{{ item['vlan_id'] }}" 
+          name: "{{ item['vlan_name'] }}"
+    loop: "{{ vlans }}"
+
+  - name: show vlans on NXOS
+    nxos_command:
+      commands: 'show vlan | json'
+    register: output
+
+  - set_fact:
+      show_vlans: "{{ output.stdout[0]['TABLE_vlanbrief']['ROW_vlanbrief'] }}"
+
+  - set_fact:
+      vlan_id_list: "{{  show_vlans | map(attribute='vlanshowbr-vlanid') | list }}"
+
+  - debug:
+      var: vlan_id_list
+
+  - set_fact:
+      all_vlans_list: "{{ hostvars['nxos1']['vlan_id_list'] + hostvars['nxos2']['vlan_id_list'] }}"
+
+  - debug:
+      var: all_vlans_list
+
+  - set_fact:
+      common_vlans: "{{ hostvars['nxos1']['vlan_id_list'] | intersect(hostvars['nxos2']['vlan_id_list']) }}"
+
+  - debug:
+      var: common_vlans
+
+  - set_fact:
+      unique_vlans_nxos1: "{{ vlan_id_list | difference(hostvars['nxos2']['vlan_id_list']) }}"
+    when: inventory_hostname == 'nxos1'
+
+  - set_fact:
+      unique_vlans_nxos2: "{{ vlan_id_list | difference(hostvars['nxos1']['vlan_id_list']) }}"
+    when: inventory_hostname == 'nxos2'
+
+  - debug:
+      var: unique_vlans_nxos1
+    when: inventory_hostname == 'nxos1'
+
+  - debug:
+      var: unique_vlans_nxos2
+    when: inventory_hostname == 'nxos2'
+
+
+
+
